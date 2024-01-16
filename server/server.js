@@ -1,5 +1,6 @@
 require("dotenv").config();
 
+const morgan = require("morgan");
 const express = require("express");
 const mongoose = require("mongoose");
 const contactsRoutes = require("./routes/contacts");
@@ -8,12 +9,8 @@ const contactsRoutes = require("./routes/contacts");
 const app = express();
 
 // Middleware
+app.use(morgan("dev"));
 app.use(express.json());
-
-app.use((req, res, next) => {
-  console.log(req.path, req.method);
-  next();
-});
 
 // Routes
 app.use("/api/contacts", contactsRoutes);
