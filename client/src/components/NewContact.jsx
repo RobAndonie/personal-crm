@@ -2,7 +2,9 @@ import { useState } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 
-export default function NewContact() {
+import PropTypes from "prop-types";
+
+export default function NewContact({ setIsOpen }) {
   const [error, setError] = useState(null);
 
   const formik = useFormik({
@@ -42,116 +44,191 @@ export default function NewContact() {
         },
       });
 
-      const data = await response.json();
-
-      if (!data.ok) {
-        setError(data.error);
-      } else {
-        setError(null);
-        console.log("Contact added!");
+      if (response.ok) {
         formik.resetForm();
+        setIsOpen(false);
+      } else {
+        setError("Error creating contact");
       }
     },
   });
 
   return (
     <div>
-      <form
-        onSubmit={(e) => {
-          e.preventDefault();
-          formik.handleSubmit;
-        }}
-      >
-        <label htmlFor="name">Name</label>
-        <input
-          id="name"
-          type="text"
-          name="text"
-          onChange={formik.handleChange}
-          onBlur={formik.handleBlur}
-          value={formik.values.name}
-        />
-        {formik.touched.name && formik.errors.name ? (
-          <div>{formik.errors.name}</div>
-        ) : null}
+      <form onSubmit={formik.handleSubmit} className="flex flex-col gap-4">
+        <div>
+          <div className="flex items-center gap-4 border-b py-3">
+            <label htmlFor="name" className="w-60">
+              Name
+            </label>
+            <div className="flex w-full flex-col">
+              <input
+                className="rounded border border-primary px-4 py-2"
+                id="name"
+                type="text"
+                name="name"
+                placeholder="John Doe"
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                value={formik.values.name}
+              />
+              {formik.touched.name && formik.errors.name ? (
+                <div className="text-sm text-red-500">{formik.errors.name}</div>
+              ) : null}
+            </div>
+          </div>
 
-        <label htmlFor="company">Company</label>
-        <input
-          id="company"
-          type="text"
-          name="text"
-          onChange={formik.handleChange}
-          onBlur={formik.handleBlur}
-          value={formik.values.company}
-        />
-        {formik.touched.company && formik.errors.company ? (
-          <div>{formik.errors.company}</div>
-        ) : null}
+          <div className="flex items-center gap-4 border-b py-3">
+            <label htmlFor="company" className="w-60">
+              Company
+            </label>
+            <div className="flex w-full flex-col">
+              <input
+                className="rounded border border-primary px-4 py-2"
+                id="company"
+                type="text"
+                name="company"
+                placeholder="Google"
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                value={formik.values.company}
+              />
+              {formik.touched.company && formik.errors.company ? (
+                <div className="text-sm text-red-500">
+                  {formik.errors.company}
+                </div>
+              ) : null}
+            </div>
+          </div>
 
-        <label htmlFor="position">Position</label>
-        <input
-          id="position"
-          type="text"
-          name="text"
-          onChange={formik.handleChange}
-          onBlur={formik.handleBlur}
-          value={formik.values.position}
-        />
-        {formik.touched.position && formik.errors.position ? (
-          <div>{formik.errors.position}</div>
-        ) : null}
+          <div className="flex items-center gap-4 border-b py-3">
+            <label htmlFor="position" className="w-60">
+              Position
+            </label>
+            <div className="flex w-full flex-col">
+              <input
+                className="rounded border border-primary px-4 py-2"
+                id="position"
+                type="text"
+                name="position"
+                placeholder="Software Engineer"
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                value={formik.values.position}
+              />
+              {formik.touched.position && formik.errors.position ? (
+                <div className="text-sm text-red-500">
+                  {formik.errors.position}
+                </div>
+              ) : null}
+            </div>
+          </div>
 
-        <label htmlFor="email">Email</label>
-        <input
-          id="email"
-          type="text"
-          name="text"
-          onChange={formik.handleChange}
-          onBlur={formik.handleBlur}
-          value={formik.values.email}
-        />
-        {formik.touched.email && formik.errors.email ? (
-          <div>{formik.errors.email}</div>
-        ) : null}
+          <div className="flex items-center gap-4 border-b py-3">
+            <label htmlFor="email" className="w-60">
+              Email
+            </label>
+            <div className="flex w-full flex-col">
+              <input
+                className="rounded border border-primary px-4 py-2"
+                id="email"
+                type="email"
+                name="email"
+                placeholder="john.doe@gmail.com"
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                value={formik.values.email}
+              />
+              {formik.touched.email && formik.errors.email ? (
+                <div className="text-sm text-red-500">
+                  {formik.errors.email}
+                </div>
+              ) : null}
+            </div>
+          </div>
 
-        <label htmlFor="location">Location</label>
-        <input
-          id="location"
-          type="text"
-          name="text"
-          onChange={formik.handleChange}
-          onBlur={formik.handleBlur}
-          value={formik.values.location}
-        />
-        {formik.touched.location && formik.errors.location ? (
-          <div>{formik.errors.location}</div>
-        ) : null}
+          <div className="flex items-center gap-4 border-b py-3">
+            <label htmlFor="location" className="w-60">
+              Location
+            </label>
+            <div className="flex w-full flex-col">
+              <input
+                className="rounded border border-primary px-4 py-2"
+                id="location"
+                type="text"
+                name="location"
+                placeholder="San Francisco, CA"
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                value={formik.values.location}
+              />
+              {formik.touched.location && formik.errors.location ? (
+                <div className="text-sm text-red-500">
+                  {formik.errors.location}
+                </div>
+              ) : null}
+            </div>
+          </div>
 
-        <label htmlFor="phoneNumber">Phone Number</label>
-        <input
-          id="phoneNumber"
-          type="text"
-          name="text"
-          onChange={formik.handleChange}
-          onBlur={formik.handleBlur}
-          value={formik.values.phoneNumber}
-        />
-        {formik.touched.phoneNumber && formik.errors.phoneNumber ? (
-          <div>{formik.errors.phoneNumber}</div>
-        ) : null}
+          <div className="flex items-center gap-4 border-b py-3">
+            <label htmlFor="phoneNumber" className="w-60">
+              Phone Number
+            </label>
+            <div className="flex w-full flex-col">
+              <input
+                className="rounded border border-primary px-4 py-2"
+                id="phoneNumber"
+                type="text"
+                name="phoneNumber"
+                placeholder="123-456-7890"
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                value={formik.values.phoneNumber}
+              />
+              {formik.touched.phoneNumber && formik.errors.phoneNumber ? (
+                <div className="text-sm text-red-500">
+                  {formik.errors.phoneNumber}
+                </div>
+              ) : null}
+            </div>
+          </div>
 
-        <label htmlFor="notes">Notes</label>
-        <input
-          id="notes"
-          type="text"
-          name="text"
-          onChange={formik.handleChange}
-          value={formik.values.notes}
-        />
+          <div className="flex items-center gap-4 border-b py-3">
+            <label htmlFor="notes" className="w-60">
+              Notes
+            </label>
+            <div className="flex w-full flex-col">
+              <textarea
+                className="rounded border border-primary px-4 py-2"
+                id="notes"
+                type="text"
+                name="notes"
+                placeholder="Notes"
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                value={formik.values.notes}
+              />
+              {formik.touched.notes && formik.errors.notes ? (
+                <div className="text-sm text-red-500">
+                  {formik.errors.notes}
+                </div>
+              ) : null}
+            </div>
+          </div>
+        </div>
 
-        <button type="submit">Submit</button>
-        {error && <div>{error}</div>}
+        <button
+          type="submit"
+          className="h-min rounded bg-secondary p-2 font-semibold text-white"
+        >
+          Submit
+        </button>
       </form>
+      {error && <div className="text-sm text-red-500">{error}</div>}
     </div>
   );
 }
+
+NewContact.propTypes = {
+  setIsOpen: PropTypes.func.isRequired,
+};

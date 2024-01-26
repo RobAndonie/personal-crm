@@ -4,7 +4,7 @@ import ModalForm from "../components/ModalForm";
 
 export default function Contacts() {
   const [contacts, setContacts] = useState([]);
-  const [showModal, setShowModal] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
 
   useEffect(() => {
     const fetchContacts = async () => {
@@ -12,6 +12,7 @@ export default function Contacts() {
       const data = await response.json();
 
       if (response.ok) {
+        console.log("Contacts fetched!");
         setContacts(data);
       }
     };
@@ -19,13 +20,9 @@ export default function Contacts() {
     fetchContacts();
   }, []);
 
-  const handleClose = () => {
-    setShowModal(false);
-  };
-
   return (
     <div>
-      {showModal && <ModalForm setShowModal={handleClose} />}
+      {isOpen && <ModalForm isOpen={isOpen} setIsOpen={setIsOpen} />}
       <div className="flex flex-col gap-12 px-28 py-16">
         <p className="text-4xl font-semibold text-darkNeutral">Personal CRM</p>
         <div className="flex flex-col gap-6">
@@ -34,9 +31,9 @@ export default function Contacts() {
               <p>Search Contacts & Companies</p>
             </div>
             <button
-              className="h-min rounded bg-secondary p-2 font-bold text-white"
+              className="h-min rounded bg-secondary p-2 font-semibold text-white"
               onClick={() => {
-                setShowModal(true);
+                setIsOpen(true);
               }}
             >
               Add Contact

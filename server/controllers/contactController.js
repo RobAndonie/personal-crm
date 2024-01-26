@@ -26,7 +26,7 @@ const getContact = async (req, res) => {
 
 // Post a contact
 const postContact = async (req, res) => {
-  const { name, email, phoneNumber, company, position, location, notes } =
+  const { name, company, position, email, location, phoneNumber, notes } =
     req.body;
 
   try {
