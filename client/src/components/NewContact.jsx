@@ -1,3 +1,4 @@
+import { useContactsContext } from "../hooks/useContactsContext";
 import { useState } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
@@ -5,6 +6,7 @@ import * as Yup from "yup";
 import PropTypes from "prop-types";
 
 export default function NewContact({ setIsOpen }) {
+  const { dispatch } = useContactsContext();
   const [error, setError] = useState(null);
 
   const formik = useFormik({
@@ -47,6 +49,8 @@ export default function NewContact({ setIsOpen }) {
       if (response.ok) {
         formik.resetForm();
         setIsOpen(false);
+        const json = await response.json();
+        dispatch({ type: "ADD_CONTACT", payload: json });
       } else {
         setError("Error creating contact");
       }

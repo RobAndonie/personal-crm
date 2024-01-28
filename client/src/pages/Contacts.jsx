@@ -1,10 +1,12 @@
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
+import { useContactsContext } from "../hooks/useContactsContext";
 import ContactDetails from "../components/ContactDetails";
 import ModalForm from "../components/ModalForm";
 
 export default function Contacts() {
-  const [contacts, setContacts] = useState([]);
   const [isOpen, setIsOpen] = useState(false);
+
+  const { contacts, dispatch } = useContactsContext();
 
   useEffect(() => {
     const fetchContacts = async () => {
@@ -13,12 +15,12 @@ export default function Contacts() {
 
       if (response.ok) {
         console.log("Contacts fetched!");
-        setContacts(data);
+        dispatch({ type: "SET_CONTACTS", payload: data });
       }
     };
 
     fetchContacts();
-  }, []);
+  }, [dispatch]);
 
   return (
     <div>
@@ -46,6 +48,7 @@ export default function Contacts() {
               <p className="w-44">Location</p>
               <p className="w-44">Phone Number</p>
               <div className="w-20" />
+              <div className="w-12" />
             </div>
             <div className="flex flex-col gap-4">
               {contacts &&

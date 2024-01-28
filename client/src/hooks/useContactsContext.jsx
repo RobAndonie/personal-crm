@@ -1,7 +1,7 @@
-import ContactsContext from "../context/ContactsContext";
+import { ContactsContext } from "../context/ContactsContext";
 import { useContext } from "react";
 
-export default function useContactsContext() {
+export function useContactsContext() {
   const context = useContext(ContactsContext);
 
   if (!context) {
